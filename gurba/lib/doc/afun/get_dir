@@ -1,0 +1,31 @@
+NAME
+	get_dir - Retrieve information about the  contents of a directory.
+		
+SYNOPSIS
+	static mixed **get_dir(string dir)
+
+DESCRIPTION
+	Return the files, sizes and modification times of files in a directory.
+
+RETURN VALUES
+	Get_dir returns 3 arrays, file names, file sizes, filemod times.
+	Directories have a file size of -2.  If no file or directory exists
+	the return value will be three empty arrays ({ ({ }), ({ }), ({ }) })
+
+EXAMPLES
+	mixed *files;
+	string *names;
+	int x, max;
+
+	files = get_dir(dir);
+	names = files[0];
+	max = sizeof(names);
+	for (x=0; x<max; x++) {
+	   write(files[1][x] + "\t" + names[x] + "\t" + files[2][x] + "\n");
+	}
+
+SEE ALSO
+	safun/cat_file, afun/copy, afun/editor, afun/make_dir, afun/read_file,
+	afun/rename_file, afun/remove_dir, afun/remove_file, afun/require_priv,
+	afun/restore_object, afun/save_object, afun/unguarded, afun/valid,
+	afun/valid_read, afun/valid_write, afun/write_file

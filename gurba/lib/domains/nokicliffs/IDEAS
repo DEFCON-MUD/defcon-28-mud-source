@@ -1,0 +1,13 @@
+/* XXX */
+* Fix light/dark rooms, lighting
+* Bane/vulnerabilities completed
+* Put command - handle coins
+* Use player attributes more (bash door, NPC reactions)
+* Bag of wonders - put something in, get something different out
+* roff-ish implementation (again)
+* Nightvision devices (magic helmet, spectacles)
+* Stethoscope 'apply', extend functionality
+* Games - roulette, darts, dice, black jack
+* Note where took Padrone's stuff
+* Other castles re-implemented for gurbalib
+* Documentation, domain read through, Padrone

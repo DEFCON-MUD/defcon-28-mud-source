@@ -1,0 +1,46 @@
+NAME
+	call_trace - return a function trace.
+
+SYNOPSIS
+	static mixed call_trace()
+
+DESCRIPTION
+	This function is useful for debugging things.  It will create
+	an array of function calls with extra info.  The elements of the
+	array are describe in kernel/include/trace.h
+
+	   ({ objname, progname, function, line, extern, arg1, ..., argn })
+
+RETURN VALUE
+	The line number will be 0 if the function is a compile object.
+	The extern field will be 1 if the function was called with
+	call_other(), otherwise it will be 0.
+	The last element of the returned array is the trace of the current
+	function.
+
+EXAMPLES
+	/* XXX Not sure why this fails right now */
+	#include <trace.h>
+	mixed values;
+	int x, maxx;
+
+	if () {
+	   values = call_trace();
+	   if (values) {
+	      maxx = sizeof(values);
+	      for (x = 0; x < maxx; x++) {
+	         write("OBJ Name: " + values[x][TRACE_OBJNAME] + "\n");
+	         write("Prog Name: " + values[x][TRACE_PROGNAME] + "\n");
+	         write("Fun Name: " + values[x][TRACE_FUNCTION] + "\n");
+	         write("Line #: " + values[x][TRACE_LINE] + "\n");
+	         write("External Call: " + values[x][TRACE_EXTERNAL] + "\n");
+	         write("First ARG: " + values[x][TRACE_FIRSTARG] + "\n");
+	      }
+	   }
+	}
+
+SEE ALSO
+	safun/players, afun/set_this_player, safun/this_body,
+	afun/this_connection, safun/this_environment, afun/this_player,
+	safun/this_program, safun/this_race, afun/this_user, kfun/call_trace,
+	kfun/previous_object, kfun/previous_program

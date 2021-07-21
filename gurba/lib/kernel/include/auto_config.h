@@ -1,0 +1,5 @@
+#ifndef AUTO_CONFIG_DOT_H
+#define AUTO_CONFIG_DOT_H
+#define OPERATOR_OVERLOADING
+#define MAX_STRING_SIZE 65535
+#endif

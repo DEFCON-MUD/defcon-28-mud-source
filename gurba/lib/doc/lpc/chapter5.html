@@ -1,0 +1,174 @@
+<HEAD>
+<TITLE>Chapter 5</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<H3 ALIGN=CENTER>LPC Basics</H3>
+<H4 ALIGN=CENTER>Written by Descartes of Borg</H4>
+<H4 ALIGN=CENTER>23 april 1993</H4>
+<P>
+<H5 ALIGN=CENTER>CHAPTER 5: The Basics of Inheritance</H5>
+
+<B>5.1 Review</B><BR><BR>
+You should now understand the basic workings of functions.  You should be
+able to declare and call one.  In addition, you should be able to recognize
+function definitions, although, if this is your first experience with LPC,
+it is unlikely that you will as yet be able to define your own functions.
+There functions form the basic building blocks of LPC objects.  Code
+in them is executed when another function makes a call to them.  In making
+a call, input is passed from the calling function into the execution of
+the called one.  The called function then executes and returns a value
+of a certain data type to the calling function.  Functions which return
+no value are of type void.
+<P>
+After examining your workroom code, it might look something like this
+(depending on the mudlib) [adapted to Wunderland mudlib]:<BR>
+<PRE>
+inherit "/std/room";
+
+void create() {
+    ::create();
+    SetProp("light", 2);
+    SetProp("indoors", 1);
+    SetProp("short", "Descartes' Workroom");
+    SetProp("long", "This is where Descartes works.\nIt is a cube.\n");
+    set_exits( ({ "/d/standard/square" }), ({ "square" }) );
+}
+</PRE>
+If you understand the entire textbook to this point, you should recognize
+of the code the following:
+<MENU>
+    <B>1)</B> <CODE>create()</CODE> is the definition of a function (hey! he did not declare it)<BR>
+    <B>2)</B> It makes calls to <CODE>SetProp()</CODE> none of which are declared or defined in the code.<BR>
+    <B>3)</B> There is a line at the top that is no variable or function declaration
+       nor is it a function definition!
+</MENU>
+This chapter will seek to answer the questions that should be in your head
+at this point:
+<MENU>
+    <B>1)</B> Why is there no declaration of create()?<BR>
+    <B>2)</B> Where are the functions set_property(), set(), and set_exits() declared
+       and defined?<BR>
+    <B>3)</B> What the hell is that line at the top of the file?
+</MENU>
+
+<B>5.2 Object oriented programming</B><BR><BR>
+Inheritance is one of the properties which define true object oriented
+programming (OOP).  It allows you to create generic code which can be used
+in many different ways by many different programs.  What a mudlib does is
+create these generalized files (objects) which you use to make very specific
+objects.
+<P>
+If you had to write the code necessary for you to define the workroom above,
+you would have to write about 1000 lines of code to get all the functionality
+of the room above.  Clearly that is a waste of disk space.  In addition,
+such code does not interact well with players and other rooms since every
+creator is making up his or her own functions to perform the functionality
+of a room.  Thus, what you might use to write out the room's long description,
+query_long(), another wizard might be calling long().  This is the primary
+reason mudlibs are not compatible, since they use different protocols for
+object interaction.
+<P>
+OOP overcomes these problems.  In the above workroom, you inherit the
+functions already defined in a file called "<CODE>/std/room.c</CODE>".  It has all
+the functions which are commonly needed by all rooms defined in it.  When
+you get to make a specific room, you are taking the general functionality
+of that room file and making a unique room by adding your own function,
+<CODE>create()</CODE>.
+<BR><BR>
+<B>5.3 How inheritance works</B><BR><BR>
+As you might have guessed by now, the line:
+<PRE>
+inherit "/std/room";
+</PRE>
+has you inherit the functionality of the room "<CODE>/std/room.c</CODE>".  By inheriting
+the functionality, it means that you can use the functions which have
+been declared and defined in the file "<CODE>/std/room.c</CODE>"  In the Nightmare Mudlib,
+"<CODE>/std/room.c</CODE>" has, among other functions, set_property(), set(), and
+set_exits() declared and defined.  In your function create(), you are
+making calls to those functions in order to set values you want your
+room to start with.  These values make your room different from others, yet
+able to interact well with other objects in memory.
+<P>
+In actual practice, each mudlib is different, and thus requires you to use
+a different set of standard functions, often to do the same thing.  It is
+therefore beyond the scope of this textbook even to describe what
+functions exist and what they do.  If your mudlib is well documented,
+however, then (probably in /doc/build) you will have tutorials on how
+to use the inheritable files to create such objects.  These tutorials
+should tell you what functions exist, what input they take, the data
+type of their output, and what they do.
+<BR><BR>
+<B>5.4 Chapter summary</B><BR><BR>
+This is far from a complete explanation of the complex subject of inheritance.
+The idea here is for you to be able to understand how to use inheritance in
+creating your objects.  A full discussion will follow in a later textbook.
+Right now you should know the following:
+<MENU>
+    <B>1)</B> Each mudlib has a library of generic objects with their own general
+       functions used by creators through inheritance to make coding objects
+       easier and to make interaction between objects smoother.<BR>
+    <B>2)</B> The functions in the inheritable files of a mudlib vary from mudlib
+       to mudlib.  There should exist documentation on your mud on how to
+       use each inheritable file.  If you are unaware what functions are
+       available, then there is simply no way for you to use them.  Always
+       pay special attention to the data types of the input and the data
+       types of ay output.<BR>
+    <B>3)</B> You inherit the functionality of another object through the line <CODE>inherit "filename";</CODE>
+       where filename is the name of the file of the object to be inherited.
+       This line goes at the beginning of your code.
+</MENU>
+Note:
+You may see the syntax <CODE>::create()</CODE> or <CODE>::init()</CODE> or <CODE>::reset()</CODE> in places.
+You do not need fully to understand at this point the full nuances of this,
+but you should have a clue as to what it is. The "::" operator is a way
+to call a function specifically in an inherited object (called the scope
+resolution operator).  For instance, most muds' <CODE>room.c</CODE> has a function
+called <CODE>create()</CODE>.  When you inherit <CODE>room.c</CODE> and configure it, you are doing
+what is called overriding the <CODE>create()</CODE> function in <CODE>room.c</CODE>.  This means
+that whenever ANYTHING calls <CODE>create()</CODE>, it will call *your* version and not
+the one in <CODE>room.c</CODE>.  However, there may be important stuff in the room.c
+version of <CODE>create()</CODE>.  The :: operator allows you to call the <CODE>create()</CODE> in
+<CODE>room.c</CODE> instead of your <CODE>create()</CODE>.
+An example:<BR>
+#1
+<PRE>
+inherit "/std/room";
+
+void create() { create(); }
+</PRE>
+#2
+<PRE>
+inherit "/std/room";
+
+void create() { ::create(); }
+</PRE>
+Example #1 is a horror.  When loaded, the driver calls <CODE>create()</CODE>, and then
+<CODE>create()</CODE> calls <CODE>create()</CODE>, which calls <CODE>create()</CODE>, which calls <CODE>create()</CODE>...
+In other words, all <CODE>create()</CODE> does is keep calling itself until the driver
+detects a too deep recursion and exits.
+<P>
+Example #2 is basically just a waste of RAM, as it is no different from <CODE>room.c</CODE>
+functionally.  With it, the driver calls its <CODE>create()</CODE>, which in turn calls
+<CODE>::create()</CODE>, the <CODE>create()</CODE> in <CODE>room.c</CODE>.  Otherwise it is functionally
+exactly the same as <CODE>room.c</CODE>.
+<BR>
+<P>
+<CENTER>
+| <A HREF="/mud/doc/lpc/contents.html">Inhalt</A> |
+  <A HREF="/mud/doc/lpc/introduction.html">Introduction</A> |
+  <A HREF="/mud/doc/lpc/chapter1.html">Chapter 1</A> |
+  <A HREF="/mud/doc/lpc/chapter2.html">Chapter 2</A> |
+  <A HREF="/mud/doc/lpc/chapter3.html">Chapter 3</A> |
+  <A HREF="/mud/doc/lpc/chapter4.html">Chapter 4</A> |
+  <A HREF="/mud/doc/lpc/chapter6.html">Chapter 6</A> |
+  <A HREF="/mud/doc/lpc/chapter7.html">Chapter 7</A> |
+  <A HREF="/mud/doc/lpc/chapter8.html">Chapter 8</A> |
+<BR>
+| <A HREF="/index.html">Hauptseite des Wunderlandes</A> |
+</CENTER>
+<BR>
+<HR>
+<BR>
+<IMG SRC="/icons/mail.gif"> <A HREF="mailto:mud@wl.mud.de"><I>mud@wl.mud.de</I></A>
+</BODY>
+</HTML>

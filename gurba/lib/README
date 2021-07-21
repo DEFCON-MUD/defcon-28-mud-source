@@ -1,0 +1,51 @@
+This mudlib is considered a learning tool, so the following file explains
+a little bit about the layout of the mud and what you'll find in the following
+directories.  If you have any questions email: sirdude (mein@umn.edu)
+
+TODO items are marked with XXX so you can easily grep -r XXX in the
+mud and see what needs to be worked on.
+
+If you do not have the mud up and running yet, look at ../doc/INSTALLING
+and the other documentation.  (if you do not do this, some of these 
+directories may not exist yet.)
+
+The mudlib has a basic hiearchy for security:
+	Stuff in kernel is trusted and this is where the mudlib starts
+		booting.
+	Stuff in sys is then setup, this is where admin and wizard
+		commands live.
+	Then the rest of the mud is used.
+
+Here is a basic description of how things are laid out:
+	README		This file explaining what each dir has in it.
+	TODO		List of todo items not tied to a specific file.
+	cmds		player and monster commands live here.
+	daemons		Various processes that run on the mud to handle things.
+			An example is the event daemon, or the telnet daemon.
+	data		Mud specific data files..  Player files, message boards,
+			etc...  In general all the user generated content.
+	doc		Documentation about the mud... that wizards can view
+			via man.  doc/help is for players via help.
+	domains		The official areas of the mud that users can adventure 
+			in.  If you want a "clean" mud remove everything
+			except for the required subdirectory.  It contains
+			the void and the room you start in etc...
+	kernel		This is essential code for booting the mudlib and
+			interfacing with dgd.  It is considered all powerful
+			and anything in here doesn't have security active when
+			its running.
+	logs		If you are a wizard this directory is your best 
+			friend.  It holds error messages and other things 
+			that are recorded by the mud.
+	pub		ftp directory and or a location to store sample files.
+	std		Standard inheritables and includes for the system.  
+			Note you can not clone things from this directory.
+			For standard objects you can clone, look in:
+				/domains/required/
+	sys		This is similar to the kernel dir but is considered
+			later in the boot process.  Things like the
+			player object are located here.  Wizard and admin 
+			commands also live here.
+	tmp		Temp dir
+	wiz		Home directories for our local wizards.
+

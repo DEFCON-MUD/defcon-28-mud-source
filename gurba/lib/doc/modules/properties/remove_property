@@ -1,0 +1,22 @@
+NAME
+	remove_property - remove a property from an object
+
+SYNOPSIS
+	int remove_property(string name)
+
+DESCRIPTION
+	removes the named property with its access controls.
+
+RETURN VALUE
+	Returns 1 on success or 0 when privilege checks do not allow the
+	changes.
+
+EXAMPLES
+	if (this_player()->property("stuff")) {
+	   return this_player()->remove_property("stuff");
+	}
+
+SEE ALSO
+	afun/property, misc/properties, afun/set_property,
+	afun/set_property_file
+

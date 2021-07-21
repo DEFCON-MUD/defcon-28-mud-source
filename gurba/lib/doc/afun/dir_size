@@ -1,0 +1,23 @@
+NAME
+	dir_size - get the size of all files in a directory.
+
+SYNOPSIS
+	int dir_size(string path)
+
+DESCRIPTION
+	Returns the size of all files in a directory, including all files
+	in directories of path.
+
+RETURN VALUE
+	Size of files in path.
+
+EXAMPLES
+	int x;
+
+	x = dir_size("/tmp/sirdude.txt");
+	write ("Size of /tmp/sirdude.txt = " + x + "\n");
+	x = dir_size("/domains/required");
+	write ("Size of /domains/required = " + x + "\n");
+
+SEE ALSO
+	afun/file_size, afun/file_exists

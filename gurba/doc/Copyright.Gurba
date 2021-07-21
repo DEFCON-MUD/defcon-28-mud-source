@@ -1,0 +1,35 @@
+Copyright information for Gurbalib 0.41 (and up) for DGD 1.2
+------------------------------------------------------------
+
+This work is derived from the Gurbalib 0.40 codebase by Erlend Simonsen
+and contains a large number of fixes by Nullinfinite that allow
+Gurbalib to run on modern (experimental) versions of DGD with
+typechecking 2.
+
+It also contains a number of fixes and modifications by Aidil and Cerihan.
+Some additional code was contributed by Quixadhal and Mordain.
+
+Code by Cerihan and Aidil is released as public domain.
+
+The code from Erlend and Nullinfinite is available with a 
+'do whatever you want with it' license.
+
+Additional contributed code may be assumed to fall under a "do what you
+want with it as long as you don't claim you wrote it" license unless
+otherwise specified in this file.
+
+Exception!!!!
+----------------------------------------------------------------
+lib/domains/2.4.5 falls under the following license, you can always
+remove it if you do not agree with it:
+
+This domain, is from the 2.4.5 LPmud, it is copyright by Lars Pensj|, 1990.
+It is subject to the following Restrictions:
+
+Source code herein refers to the source code, and any executables
+created from the same source code.
+
+All rights reserved.  Permission is granted to extend and modify the
+source code provided subject to the restriction that the source code may
+not be used in any way whatsoever for monetary gain.
+

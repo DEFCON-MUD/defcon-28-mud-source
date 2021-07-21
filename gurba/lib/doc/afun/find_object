@@ -1,0 +1,28 @@
+NAME
+	find_object - locate the object if they file is loaded.
+
+SYNOPSIS
+	object find_object(string filepath, varargs int flag)
+
+DESCRIPTION
+	Locate the object associated with filepath if it is loaded.
+	If flag is set, skip checks for permission to the object.
+
+	For more info on objects see /doc/misc/objects.
+
+RETURN VALUE
+	Returns the object.  If the object does not exist return nil.
+
+EXAMPLES
+	object stuff;
+
+	stuff = find_object(this_object()->base_name());
+	if (stuff) {
+		write("Object found.\n");
+	}
+
+SEE ALSO
+	safun/absolute_path, afun/base_name, afun/clone_object, afun/clone_num,
+	afun/compile_library, afun/compile_object, afun/destruct_object,
+	afun/file_name, afun/new_object, afun/normalize_path, safun/path_file,
+	safun/wiz_dir, kfun/object_name

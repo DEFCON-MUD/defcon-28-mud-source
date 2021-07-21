@@ -1,0 +1,24 @@
+NAME
+	file_size - returns the size of a file
+
+SYNOPSIS
+	int file_size(string filepath)
+
+DESCRIPTION
+	Returns the size of a file, in k's.
+
+RETURN VALUE
+	The size of file found at filepath, or 0 if no file found.
+
+EXAMPLES
+	int x;
+
+	x = file_size("/tmp/sirdude.txt");
+	if (x > 0) {
+	   write("The size of that file is: " + x + "\n");
+	} else {
+	   write("No such file.\n");
+	}
+
+SEE ALSO
+	afun/dir_size, afun/file_exists

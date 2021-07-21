@@ -1,0 +1,1 @@
+This is the "SDK" for generating area files, you will need some tweaking

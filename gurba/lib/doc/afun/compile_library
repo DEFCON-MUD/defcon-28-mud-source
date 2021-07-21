@@ -1,0 +1,33 @@
+NAME
+	compile_library - compiles an object
+
+SYNOPSIS
+	int compile_library(string filepath)
+
+DESCRIPTION
+	This command is similar to compile_object, but should be used
+	on inheritables instead of standard objects.
+
+	If object is already compiled, it will be upgraded if a newer
+	version exists at filepath.  If filepath is not a legal object an
+	error will result.
+
+	For more info on objects see /doc/misc/objects.
+
+RETURN VALUE
+	Returns 1 on success and 0 on failure.
+
+EXAMPLES
+	string filename;
+	object obj;
+
+	obj = find_object(filename);
+	if (!obj) {
+	   obj = compile_library(filename);
+	}
+
+SEE ALSO
+	safun/absolute_path, afun/base_name, afun/clone_object, afun/clone_num,
+	afun/compile_object, afun/destruct_object, afun/file_name,
+	afun/find_object, afun/normalize_path, afun/new_object,
+	safun/path_file, safun/wiz_dir, kfun/find_object, kfun/object_name

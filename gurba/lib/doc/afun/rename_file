@@ -1,0 +1,24 @@
+NAME
+	rename_file - message entire contents of a file to this_player()
+		
+SYNOPSIS
+	int rename_file(string file1, string file2)
+
+DESCRIPTION
+	Rename a file file1, to file2.
+		
+RETURN VALUE
+	Returns 1 for success and 0 for failure.
+
+EXAMPLES
+	if (rename_file("/tmp/sirdude.txt","/tmp/bingo.txt")) {
+	   write("Ok.\n");
+	} else {
+	   write("Failed.\n");
+	}
+
+SEE ALSO
+	safun/cat_file, afun/copy, afun/editor, afun/get_dir, afun/make_dir,
+	afun/read_file, afun/remove_dir, afun/remove_file, afun/require_priv,
+	afun/restore_object, afun/save_object, afun/unguarded, afun/valid,
+	afun/valid_read, afun/valid_write, afun/write_file

@@ -1,0 +1,81 @@
+SETTING THINGS UP:
+---------------------------------------------------------------------
+cd to your gurbalib dir and perform the following actions:
+	perl scripts/create_data_dirs
+		This creates empty directories that are not stored in the
+		repository.  If you do not have perl on your system you can
+                just read the script and figure out what directorys to create.
+	cd src
+
+	Download the latest version of dgd from github: 
+		git clone https://github.com/dworkin/dgd.git
+		cd dgd
+		git submodule init
+		git submodule update
+		cd src
+		make
+		make install
+			** Note: you will get 1 error on this when it tries to
+				mv ../bin/dgd ../bin/dgd.old
+
+	cd ../../..
+	cp src/dgd/bin/dgd ./bin/
+        cp mud.dgd.examp mud.dgd
+	edit mud.dgd
+		change the directory entry to where you installed things.
+		Look it over and change other things if you want.
+	cd lib/kernel/include
+	cp local_config.h.default local_config.h
+	edit local_config.h file and change at least the first 3 entries
+	cd ../../..
+
+	You may want to edit the files in lib/data/messages/
+
+	cp scripts/startmud bin/startmud
+	edit bin/startmud and set ROOT
+	./bin/startmud
+
+	If all went well, you can now connect to the telnet port 
+		mentioned in the mud.dgd config file.
+		(4000 by default)
+
+The first character logging in will automatically get the
+admin role, so be sure its you.  If you goof up and mess up the first
+login, you will need to clean the mud with scripts/clean_mud and then
+start over again, to get an admin account.
+
+XXX Warning, right now there is a bug in the system, you will need to
+logout and back in before admin privilages work for the first player.
+
+OTHER THINGS:
+-----------------------------------------------------------------------
+Downloading additional documentation.
+	I recommend grabbing the LPC-doc documentation which is
+	basically dgd extended documentation.  You can grab it by doing
+	the following:
+	cd lib/doc
+	git clone https://github.com/dworkin/lpc-doc dgd
+	ln -s dgd/kfun kfun
+	cd ../..
+
+	You can also run the following script to download yet more docs:
+	./scripts/download_lpc_docs
+
+
+Gurbalib ships with an ftp server which is enabled by default,
+	on whatever port you select + 1  if you telnet to 4000
+	you ftp to 4001.  If you want to disable it, add the following line
+	to lib/std/include/local_config.h:
+	#define DISABLE_FTP 1
+
+If you want a squeaky clean mud you can also remove the files in
+	lib/domains/ except for required (I would keep them around for
+	a little while though since they are semi good example code)
+
+You will want to read the docs that are available, in lib/doc.  There is
+	a ton of stuff to go through.  I would start with the following:
+	lib/doc/intro		# Over view of docs and commands to read them
+	lib/doc/misc/admin	# Introduction to Administration
+	lib/doc/help/wiz/bootcamp 	# Introduction to wizardhood
+	also check out the todo list: 
+	lib/TODO 

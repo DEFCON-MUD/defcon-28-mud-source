@@ -1,0 +1,18 @@
+NAME
+	console_msg - Send a message to the driver's stdout
+
+SYNOPSIS
+	static void console_msg(string message)
+
+DESCRIPTION
+	Send message to the driver.
+
+RETURN VALUE
+	NA (void)
+
+EXAMPLES
+	console_msg("ERROR: we have an error here.\n");
+
+SEE ALSO
+	safun/horizontal_rule, safun/out, safun/out_unmod, safun/ruler,
+	safun/say, afun/write

@@ -1,0 +1,29 @@
+NAME
+	make_dir - Create a directory.
+		
+SYNOPSIS
+	static int make_dir(string dir)
+
+DESCRIPTION
+	Create the directory specified by dir.
+		
+RETURN VALUE
+	Returns 1 on success and 0 on failure.
+
+EXAMPLES
+	string name;
+	int x;
+
+	name = "sirdude";
+	x = make_dir("/tmp/" + name);
+	if (x) {
+	   write("Done.\n");
+	} else {
+	   write("Unable to make tempdir.\n");
+	}
+
+SEE ALSO
+	safun/cat_file, afun/copy, afun/editor, afun/get_dir, afun/read_file,
+	afun/rename_file, afun/remove_dir, afun/remove_file, afun/require_priv,
+	afun/restore_object, afun/save_object, afun/unguarded, afun/valid,
+	afun/valid_read, afun/valid_write, afun/write_file

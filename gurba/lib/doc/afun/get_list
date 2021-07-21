@@ -1,0 +1,21 @@
+NAME
+	get_list - add an element to a list before the specified object
+	in a list.
+
+SYNOPSIS
+	nomask mixed *get_list(varargs string list)
+
+DESCRIPTION
+	return the requested list.
+
+RETURN VALUE
+	Return the specified list.  If not list is given return all
+	available lists.
+
+EXAMPLES
+	if (!get_list("clones")) {
+		error("Your config file is out of date.\n");
+	}
+
+SEE ALSO
+	afun/set_list

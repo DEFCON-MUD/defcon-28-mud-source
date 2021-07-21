@@ -1,0 +1,30 @@
+NAME
+	bubblesort - bubblesort a set
+
+SYNOPSIS
+	mixed *bubblesort(mixed *a);
+
+DESCRIPTION
+	Sorts the set using bubblesort.
+
+RETURN VALUE
+	The sorted set.
+
+EXAMPLES
+	mixed *list;
+
+	list = ({ "bee" });
+	list += ({ "alpha" });
+	list += ({ "dog" });
+
+	list = bubblesort(list);
+
+	maxx = sizeof(list);
+	for (x = 0; x < maxx; x++) {
+	   write("list[ " + x + " ] = " + list[x] + "\n");
+	}
+
+SEE ALSO
+	safun/set_difference, safun/set_intersection, safun/set_invert,
+	safun/set_remove_repeats, safun/set_similarity,
+	safun/set_symmetric_difference, safun/set_union

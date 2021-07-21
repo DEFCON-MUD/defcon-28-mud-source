@@ -1,0 +1,5 @@
+mkdir -p ../rooms/transit
+touch ../rooms/transit/area.h
+python core_room.py --area transit --name "x-100y0z0" --short "Mass Transit Tube" --long "This is a mass transit tube, you step into any of its exit points and you appear in the new destination via some science stuff, I'm not a mass transit technician so I can't tell you how this stuff works, it just does." --southeast 1 --asoutheast center_sw --east 10
+python core_room.py --area transit --name "x0y0z0" --short "Grand Central Station" --long "No this isn't the real grand central station, its just the central point where a series of tubes connect. The tubes send you all over the place, and there is no directory yet so you will have to figure this out on your own." --west 10 --southwest 1 --asouthwest center_sw --south 10
+python core_room.py --area transit --name "x0y-100z0" --short "Mass Transit Tube" --long "This is a mass transit tube, you step into any of its exit points and you appear in the new destination via some science stuff, I'm not a mass transit technician so I can't tell you how this stuff works, it just does." --northwest 1 --anorthwest center_sw --north 10

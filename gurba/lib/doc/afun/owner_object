@@ -1,0 +1,28 @@
+NAME
+	owner_object - determine the owner of the file from which an
+	object has been compiled.
+
+SYNOPSIS
+	string owner_object(object ob)
+
+DESCRIPTION
+	Determine the owner of the file from which an object has been
+	compiled.
+
+RETURN VALUE
+	Returns a string with the name of the owner of the file from
+	which ob has been compiled.
+
+EXAMPLES
+	string name;
+	object obj;
+
+	name = owner_object(obj);
+	if (stringp(name)) {
+	   write("The owner of that object is: " + name + "\n");
+	} else {
+	   write("Error unable to determine owner of that object.\n");
+	}
+
+SEE ALSO
+	afun/owner_file, afun/file_name

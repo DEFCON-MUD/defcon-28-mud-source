@@ -1,0 +1,24 @@
+NAME
+	stringp - test if a variable is a string
+
+SYNOPSIS
+	int stringp(mixed arg)
+
+DESCRIPTION
+	Check if 'arg' is a string.
+
+RETURN VALUE
+	Returns 1 if 'arg' is a string, 0 otherwise.
+
+EXAMPLES
+	string x;
+
+	x = "Woo";
+	if (stringp(x)) {
+	   write("X is a valid string.\n");
+	}
+
+SEE ALSO
+	afun/arrayp, afun/dump_value, afun/floatp, safun/fmt_time,
+	afun/functionp, afun/intp, afun/lowercase, afun/mappingp, afun/nilp,
+	afun/objectp, afun/uppercase

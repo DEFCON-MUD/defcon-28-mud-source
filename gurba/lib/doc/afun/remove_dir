@@ -1,0 +1,25 @@
+NAME
+	remove_dir - Remove a directory.
+		
+SYNOPSIS
+	static int remove_dir(string dir)
+
+DESCRIPTION
+	Remove the directory specified by dir.  Note, the directory must
+	be empty to be removed.
+		
+RETURN VALUE
+	Returns 1 on success and 0 on failure.
+
+EXAMPLES
+	if (remove_dir("/tmp/sirdude")) {
+	   write("OK.\n");
+	} else {
+	   write("Failed to remove dir.\n");
+	}
+
+SEE ALSO
+	safun/cat_file, afun/copy, afun/editor, afun/get_dir, afun/make_dir,
+	afun/read_file, afun/rename_file, afun/remove_file, afun/require_priv,
+	afun/restore_object, afun/save_object, afun/unguarded, afun/valid,
+	afun/valid_read, afun/valid_write, afun/write_file

@@ -1,0 +1,28 @@
+NAME
+	require_priv - test if all objects and inheritables on the stack
+	have at least the requested privilege
+
+SYNOPSIS
+	int require_priv(string priv)
+
+DESCRIPTION
+	Check if all objects and inheritables on the stack have the
+	requested privilege or one superior (that can become the
+	requested privilege)
+
+RETURN VALUE
+	Returns 1 if matched, 0 otherwise.
+
+EXAMPLES
+	string prev;
+
+	if (!require_priv("system")) {
+	   prev = previous_object()->base_name();
+	   error("Illegal call to this object from: " + prev + "\n");
+	}
+
+SEE ALSO
+	safun/cat_file, afun/copy, afun/editor, afun/get_dir, afun/make_dir,
+	afun/read_file, afun/rename_file, afun/remove_dir, afun/remove_file,
+	afun/restore_object, afun/save_object, afun/unguarded, afun/valid,
+	afun/valid_read, afun/valid_write, afun/write_file

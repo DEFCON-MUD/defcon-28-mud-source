@@ -1,0 +1,26 @@
+NAME
+	prev_clone - get the previous object on the clone list
+
+SYNOPSIS
+	object next_clone()
+
+DESCRIPTION
+	Get the previous object on the clone list or the master of the
+	object if there is no previous clone.  Calling this on the master
+	of an object will return nil.
+
+RETURN VALUE
+	Returns the previous object if any, or the master of an object.
+	Returns nil if called on the master.
+
+EXAMPLES
+	object obj;
+
+	obj = this_object();
+	while (obj) {
+	   write("obj name: " + obj->query_name() + "\n");
+	   obj = obj->next_clone();
+	}
+
+SEE ALSO
+	afun/num_clones, afun/next_clone, afun/query_cloner

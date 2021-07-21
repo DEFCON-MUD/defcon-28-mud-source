@@ -1,0 +1,27 @@
+NAME
+	property - query a property
+
+SYNOPSIS
+	mixed property(string name)
+
+DESCRIPTION
+	Query the value for the named property if it exists and the optional
+	permission checks succeed.
+
+RETURN VALUE
+	Returns the value for the named property. When the property does
+	not exist or permission checks fail, nil is returned.  (Note, that
+	a property can also be set to nil, without removing it.)
+
+EXAMPLES
+	object u;
+
+	u = this_player();
+	if (u->property("stuff")) {
+	   write(this_player()->query_Name() + " has the stuff.\n");
+	}
+
+SEE ALSO
+	misc/properties, afun/remove_property, afun/set_property,
+	afun/set_property_file
+

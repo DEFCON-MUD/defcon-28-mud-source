@@ -1,0 +1,496 @@
+This document is a good intro to creating your first area.  It's not
+going to cover everything but it will give you a good idea how to
+layout your first area and give you some hints on how to get started.
+Note, this stuff is broken into sections to describe how to create an area
+but at the same time, when you are creating an area for real, you will
+probably want to jump around and make sure your not following this document
+step by step.  If you haven't yet, you may want to read the following
+documents first: bootcamp, coding
+
+Steps were going to cover:
+	1. Planning.
+	2. Layout.
+	3. Creating our first room.
+	4. Testing.
+	5. Creating the rest of our rooms.
+	6. Adding some objects.
+	7. Adding some monsters.
+	8. Adding a quest.
+	9. Fleshing things out.
+	10. Adding your code into the rest of the mud.
+
+1. Planning
+Ok there are lots of things to consider when creating an area.  For this
+example we are going to create a simple small area and I'm going to
+answer the basic questions that are pretty important:
+   What is the theme?	Abandoned mine
+   What level(s) of players will want to adventure here?	1-5
+   What type of quests will we have? Explore and escape the cave in.
+   What kind of story am I trying to tell? 	A ghost story.
+   How can I get people interested in this area?  Interesting story, and
+	unusual objects.
+   How will I tie this into the larger mud as a whole?	I will put it in
+	a rocky area, and they will be able to enter it but will need to
+	explore it to leave.  It will be short so that people don't get
+	"stuck".
+
+This is just touching on some of the basics but hopefully it will get you
+thinking about what you want to create, and to give you a plan moving forward.
+There are lots of great resources online for guides to creating a good
+area/domain: http://www.infinitymud.com/area_making.shtml
+
+2. Layout
+It's a good idea to graph out your area on paper.  I'm going to use
+simple ASCII art here but in general you want to do something more detailed.
+This area is going to break some of the rules, thats Ok but the rules are
+there for a good reason.  Knowing when to break the rules is what makes
+a good area.  Some things to keep in mind:
+
+	1. Use standard exit names: north, south, northwest, southeast,
+		up, down, in, out.
+	2. Make sure your exits line up.  If you leave north from room1
+		to room2, room2 should leave south to room1.
+	3. Make your short descriptions unique.
+	4. Try to be descriptive, and verbose for your long descriptions.  Make
+		it interesting.
+	5. Make your descriptions stateless.  If you say it's dark and you
+		can't see, it is odd if someone is walking around with a
+		flashlight.
+Map for our area:
+
+        1-----2----3         7----8-----12----13
+              |    |         |    |
+              |    |         |    |
+	      4----5----6----9----10----11
+
+	1. Entrance 		2. Split
+	3. Narrow passage	4. Large opening
+	5. Rough spot		6. Tight squeeze
+	7. Cave in		8. Big rock
+	9. The Station		10. Passages
+	11. Dead end		12. Mine shaft
+	13. Escape
+
+
+Now that we have the start of our layout, its time to start writing some code.
+For now we are going to put this in our wizard's directory.  (For me that
+is /wiz/sirdude, if your following along just substitute your name
+wherever you see sirdude)
+on the mud issue the following commands:
+	cd ~
+	mkdir rooms/mine
+	mkdir monsters
+	mkdir obj
+
+Let's edit a file "domain.h" and add the following line to it:
+	#define DIR "/wiz/sirdude"
+You are free to use any editor you choose so I'm not going to go into
+all of the commands to use the mud's built in editor.
+
+The idea behind this domain.h file is, we can make our code portable
+so that once it's done all we need to do is change this one line to
+move the code to a new location.
+
+You may want to copy the map we have above to a file ~/minemap.txt just
+to have a copy of it you can reference quickly.
+
+3. Creating our first room.
+It's a good idea to name your files after your short descriptions, make
+sure you do not use spaces in the names and try to keep them around 8 chars
+or so, but still distinct.  What were going to do in this section is,
+create a basic room, copy it over to all of the files, fix the short
+descriptions in all of the rooms, fix the exits, then flesh them out with
+long descriptions.
+	cd ~/rooms/mine
+	edit mineent.c and add the following:
+
+	#include "../../domain.h"
+
+	inherit "/std/room";
+
+	void setup(void) {
+	   add_area("mine");
+
+	   set_short("Entrance to the mine");
+	   set_long("A cave in.");
+
+	   set_exits(([
+	      "east" : DIR + "/rooms/mine/split.c",
+	   ]));
+	}
+
+4. Testing.
+This is a good start, it's not a finished product but it has the basics,
+Before we progress we should test things and make sure we have a working room.
+goto ~/rooms/mine/mineent.c  If you have errors look at the logs and
+get your room working before moving to the next step.
+
+Once you are able to goto the room, run the check script on it:
+	cd ~/rooms/mine/
+	check mineent.c
+
+You should get 0 errors and 1 Warning, because the exit east does not
+point to a valid file right now.  If you get something else you should
+figure out what is wrong at this point before continuing.
+
+5. Creating our additional rooms.
+Now lets copy that file to all of the rooms with the following commands:
+	cp mineent.c split.c
+	cp mineent.c narrow.c
+	cp mineent.c large.c
+	cp mineent.c rough.c
+	cp mineent.c squeeze.c
+	cp mineent.c cavein.c
+	cp mineent.c bigrock.c
+	cp mineent.c station.c
+	cp mineent.c passages.c
+	cp mineent.c deadend.c
+	cp mineent.c mineshaft.c
+	cp mineent.c escape.c
+
+Looking at our map we need to update the set_short lines in each of
+these files.  for split.c we edit it and change this line:
+	   set_short("Entrance to the mine");
+to this:
+	   set_short("Split");
+
+The rest are left as an exercise for you. :)
+Now we need to edit the files and update the exits, again you should
+be able to figure this out from the maps.  To make sure your on the
+right track I'll show you the exit section for the first two files:
+
+split.c:
+	   set_exits(([
+	      "east" : DIR + "/rooms/mine/narrow.c",
+	      "west" : DIR + "/rooms/mine/mineent.c",
+	      "south" : DIR + "/rooms/mine/large.c",
+	   ]));
+narrow.c:
+	   set_exits(([
+	      "west" : DIR + "/rooms/mine/split.c",
+	      "south" : DIR + "/rooms/mine/rough.c",
+	   ]));
+
+If you run the check script, once you are done with all of the exits you
+should get 0 warnings and 0 errors.
+
+Now it's time to add our long descriptions to each of these rooms.
+Here is a list of each room and the long description it should have.
+Take a look at /domains/requred/rooms/*.c for examples of how to do this.
+
+mineent.c
+	You came into the mine and the exit collapsed behind you.  It
+	doesn't look like you'll be getting out of the mine here.  The
+	mine continues deeper into the cave to the east.
+split.c
+	The cavern splits into a fork here.  You can go back west or continue
+	further into the cave east or south.
+narrow.c
+	The cave becomes thinner here.  It takes a sharp turn, it looks pretty
+	skinny towards the south.  It might be safer to go back west.
+large.c
+	This is a really big room in the mine.  It looks like they must have
+	hit a major vein in this room.  Someone did some major excavation.
+rough.c
+	The walls here are not as clean cut as the rest of the mine.  It
+	looks like they must have struck it rich some where else and decided
+	there were better places to dig.
+squeeze.c
+	The mine is really narrow here.  You wonder why they skimped on
+	this section.  The timer supports are only half the width of
+	the rest of the mine.
+cavein.c
+	The supports here have collapsed.  There use to be a crawlspace
+	to the west, however it doesn't look like your getting through
+	that way anymore.
+bigrock.c
+	There is a giant rock in the center of the room.  Instead of
+	digging through it they just carved out enough room to wiggle
+	around the thing.
+station.c
+	This use to be the supply station for the mine.  There are a
+	number of shelves and abandoned mine carts here.  Back in the
+	day you could have stocked up big time.
+passages.c
+	There are multiple passages here, your not sure which way
+	to go.
+deadend.c
+	Who ever was digging this mine hit this passage and just gave up.
+	The walls are roughly cut and ends abruptly.
+mineshaft.c
+	You are in the bowels of the mountain now.
+	There is a large rusty Iron door here to the west.
+escape.c
+	After walking down an endless mine shaft, you finally see the
+	light at the end of the tunnel.  There is a hole to the east.
+	To the west the mine crawls deeper into the mountain.
+
+Again it would be a good idea to check your files and make sure things are
+working properly.  If not, look at the logs and get things working again.
+
+There are lots of other things to do with rooms for more details look at
+the document: room_code
+
+6. Adding some objects.
+So we need to spice this up a bit.  Lets add some objects, were going to
+add some things you can pickup and some things that you cannot.
+
+	Fist thing lets add a pick axe (a weapon) to station.c
+	Start by copying /domains/required/objects/short_sword.c to
+		~/obj/pickaxe.c
+
+	Make the following modifications:
+	set_id: pickaxe
+	set_adj: rusty
+	set_short: A rusty pickaxe
+	set_long: This axe has seen better days.  It could use a sharpening
+		and a whole lot of grease.
+	set_value: 8
+	set_weight: 7
+
+	We also need to add it to our room.  See /domains/newbie/rooms/tree.c
+	for an example of how to do this.  Add it to ~/rooms/mine/station.c
+	and test it to make sure it works.
+
+	Next lets add a big rock (an unmovable object) to bigrock.c
+	Start by copying /domains/newbie/obj/tree.c to ~/obj/bigrock.c
+
+	Make the following modifications:
+	set_id: rock
+	set_adj: big
+	set_short: A big rock
+	set_long: This rock takes up half of the room.  While the walls
+	have been chipped away with axes, this thing doesn't even have a
+	scratch on it.  It looks like you would need an elephant or two to
+	move it.
+
+	We also need to add it to our room.  See /domains/newbie/rooms/tree.c
+	for an example of how to do this.  Add it to ~/rooms/mine/bigrock.c
+	and test it to make sure it works.
+
+	Now lets add rubble (Something we can search) to cavein.c
+	Start by copying /domains/newbie/obj/tree.c to ~/obj/rubble.c
+
+	Make the following modifications:
+	set_id: rubble
+	remove the set_adj call
+	set_short: A pile of rubble
+	set_long: A large pile of rubble strewn about the room.  It looks
+		like it will take quite a lot of time to clean this mess up.
+
+	We also need to add it to our room.  See /domains/newbie/rooms/tree.c
+	for an example of how to do this.  Add it to ~/rooms/mine/cavein.c
+	and test it to make sure it works.
+
+7. Adding some monsters.
+Again lets spice things up:
+	add a spider to deadend.c
+	Start by copying /domains/required/monsters/rat.c to ~/monsters/spider.c
+
+	Make the following modifications:
+	add #include "../domain.h"
+	set_name: spider
+	add_adj: large
+	set_short: a very large spider
+	set_long: You thought the small ones were creepy.  This one is at least
+		two feet across, and it looks like it thinks your a snack.
+	set_race: spider
+	add set_aggressive(1);
+
+	add a kobold with a miners helmet to squeeze.c
+	Start by copying /domains/required/monsters/rat.c to ~/monsters/kobold.c
+
+	Make the following modifications:
+	set_name: kobold
+	set_gender: male
+	set_short: A filthy little kobold
+	set_long: This dirty little creature is not your friend.  In fact he
+		looks rather grumpy.
+	set_race: kobold
+	set_aggressive(1);
+
+	Now we need to create a miners helmet for our kobold.
+	Start by copying /domains/required/objects/helmet.c to ~/obj/minehelm.c
+
+	Make the following modifications:
+	set_adj: rusty
+	set_short: A rusty miners helmet
+	set_value: 15
+
+	Next we need to make it part of the kobold's gear.  Look at
+	/domains/2.4.5/monsters/orc.c for an example.
+	We need to add the following line to the top of the setup function:
+	object obj;
+
+	Then we need to add this to the bottom of the setup function:
+        obj = clone_object(DIR + "/obj/minehelm.c");
+	obj->setup();
+	obj->move(this_object());
+	do_wear(obj);
+
+Before moving to our next section you should test these two monsters and
+make sure they are working properly.
+Once you have them working, we need to add them to our rooms.
+You have done this before.
+Add the kobold to: ~/rooms/mine/squeeze.c
+and the spider to: ~/rooms/mine/deadend.c
+If you get stuck look at ~/rooms/workroom.c for an example of how to do
+this.
+
+8. Adding a quest.
+Again this needs a lot of planning and there are lots of opinions on what
+exactly makes a good quest.  This quest provided here isn't great, but it
+is simple and shows you the parts you will need to create a quest.  This
+is one of the key elements to your "area" so you want to make sure you have
+a good quest.  There are some common themes that make up most quests:
+	Recover an item, Rescue someone, got somewhere, perform a task.
+
+Some things to keep in mind:
+	You need some way to start the quest, some conflicts, a clear
+	way to complete the quest, some sort of reward.
+	A good quest will be challenging.
+	A good quest will not use obscurity to make it challenging.
+	A good quest will not become tedious.
+	A good quest will give you a sense of accomplishment when you
+		complete it.
+	A good area doesn't depend on making a better sword, or more
+		money for players, it's all about good balance and
+		a fun experience for users.
+
+For our quest, when you enter the mine, there is a cave in and you must
+	find a way out.
+
+Starting out:
+When you enter the mine you will not be able to go out the way you came in
+so the quest will start.  The key is you want to give the player enough
+information that they know there is a challenge they need to complete.
+We are going to do this simply, we will break one of the rules and make
+an entrance that only goes one way.  Once you walk into the mine
+you'll start your quest.
+
+Conflicts:
+We already have a couple of monsters in the mine, but we are still missing
+something.  What were going to do is add a locked door close to the end of
+the mine, and a key that the players will need to locate to unlock the
+door.
+
+Edit ~/obj/irondoor.c and make it look like this:
+	inherit "/std/door";
+
+	void setup(void) {
+ 	   set_short("A sturdy iron door");
+           set_long("This thing is solid, your not getting through it " +
+              "without the key.  What kind of thing needs a heavy door " +
+              "like this?");
+	   mudlib_setup("west","ironminedoor");
+	}
+
+Add our door to ~/rooms/mine/mineshaft.c with the following code:
+	set_objects( DIR + "/obj/irondoor.c" );
+
+Create a key by copying /domains/2.4.5/obj/bankkey.c to
+~/obj/ironkey.c
+Make the following modifications:
+	add_id("rusty key");
+	add_id("key");
+	set_short("A rusty old key");
+	set_value(5);
+
+Add the following function to ~/obj/rubble.c, this will make it so we
+can find the key with the search command:
+
+int do_search(void) {
+
+   if (this_player()->present("rusty key")) ||
+      this_player()->is_completed_quest("NewbieVille")) {
+      write("You find nothing.\n");
+      this_player()->query_environment()->tell_room(this_player(),
+         this_player()->query_Name() +
+         " digs through the rubble.\n");
+      return 1;
+   }
+   return 0;
+}
+
+XXX Need to attach the key to the door and place the key...
+
+
+End:
+
+Reward:
+The reward for this quest is that you are no longer trapped.  Not that
+great but at least you'll be free to adventure again.  You'll also
+get a quest completed entry, many mud's will not allow you to be a
+wizard until you have completed a certain number of quests.  The idea
+behind this is, once you have experienced a number of areas/quests you'll
+have a better idea of what makes a good area and what makes a not so good one.
+
+9. Fleshing things out.
+Need to fix our rubble, add some red herrings and some other stuff to
+make it more interesting.
+
+Next we'll add a hint for how to escape. Add a rubble description to
+the setup function in escape.c:
+   add_item("rubble", "The wall has a bunch of rocks.  It looks like " +
+      "you might be able to move it.");
+
+XXX Need to add red herrings and other fluff...
+
+10. Adding your code to the rest of the mud.
+There are 3 parts to this, you need to integrate any entrance/exits you
+have to your area with the rest of the mud, you need to register
+any quests you have and finally you need to move your area to /domains
+
+It is very important to work with others to find a good location for
+integration and to try and improve the experience for users.
+
+For now lets add the entrances and exits to your workroom.  Later when you
+build your own area you'll want to really add it to the rest of the domains,
+so lets practice doing this here first.
+For the entrance, we will add an exit to your workroom, just add a line
+similar to the following in the exits section of: ~/rooms/workroom.c
+	"mine" : "/wiz/sirdude/rooms/mine/mineent.c",
+
+Next is the exit function to bring us back to ~/rooms/workroom.c when we
+are done. For that we are going to add a function: move rubble
+inside the file: rooms/mine/escape.c
+We are going to add the following function to the file:
+int move_rubble(string str) {
+   if (str == "rubble") {
+      write("You rummage around in the rubble and slide through to " +
+         "the other side.");
+      this_environment()->tell_room(this_player(), this_player()->query_Name() +
+         " digs through the rubble and disappears.");
+
+      this_player()->move("/wiz/sirdude/rooms/workroom.c");
+      return 1;
+   }
+   return 0;
+}
+
+Then we need to make a hook to it.  We do that by adding the following
+to the setup function in escape.c:
+   add_action("move_rubble", "move");
+
+Finally we need to register our quest.  To do that, an admin needs to just
+run the following command:
+questadm add AbandonedMine 1 (area)
+where (area) is the area you are adding this quest to. Were not going to
+do this though because this quest is already in the mudlib you can
+find everything in /domains/boothill, you should check it out and compare it
+to the work you have done so far.
+The entrance is here: /domains/boothill/rooms/mountain1.c
+The exit is located here: /domains/boothill/rooms/mine/escape.c
+
+Now it's time for you to design your own area.
+
+If your looking for more quest ideas look here:
+	NewbieVille: In this quest you just need to push a button.
+	If you have already completed the quest you cannot get back in to
+	the area.
+		Start: /domains/newbie/rooms/tree.c
+		End: /domains/newbie/rooms/quest.c
+	OrcSlayer: In this quest you have to acquire the "Orc Slayer" and
+	return it to Leo.
+		Start: /domains/2.4.5/room/adv_guild.c
+		End: /domains/2.4.5/monsters/leo.c

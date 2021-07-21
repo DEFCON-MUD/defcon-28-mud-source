@@ -1,0 +1,21 @@
+mkdir -p ../objects/shop/weapon/
+python core_weapon.py --level 1 --type sword
+python core_weapon.py --level 2 --type sword
+python core_weapon.py --level 3 --type sword
+python core_weapon.py --level 4 --type sword
+python core_weapon.py --level 5 --type sword
+python core_weapon.py --level 6 --type sword
+python core_weapon.py --level 7 --type sword
+python core_weapon.py --level 8 --type sword
+python core_weapon.py --level 9 --type sword
+python core_weapon.py --level 10 --type sword
+python core_weapon.py --level 11 --type sword
+python core_weapon.py --level 12 --type sword
+python core_weapon.py --level 13 --type sword
+python core_weapon.py --level 14 --type sword
+python core_weapon.py --level 15 --type sword
+python core_weapon.py --level 16 --type sword
+python core_weapon.py --level 17 --type sword
+python core_weapon.py --level 18 --type sword
+python core_weapon.py --level 19 --type sword
+python core_weapon.py --level 20 --type sword

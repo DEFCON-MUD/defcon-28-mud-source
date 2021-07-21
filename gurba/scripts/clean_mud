@@ -1,0 +1,46 @@
+#!/usr/bin/perl -w
+my ($word);
+
+sub rm_dir {
+   my ($infile) = @_;
+
+   if (-d $infile) {
+      system("rm -rf $infile");
+   }
+}
+
+if (!-f "scripts/create_data_dirs") {
+   print "Error I'm not in the right location.  You need to run this script\n";
+   print "in the base directory gurablib.\n";
+   print "\tcd to your gurbalib then type: scripts/create_data_dirs\n";
+   exit 1;
+}
+
+print "WARNING: You are about to remove all user data on your mud,\nare you " .
+   "Really, I MEAN REALLY? sure you want to continue (Y/N)? ";
+chomp($word = <STDIN>);
+
+if ($word eq "y" || $word eq "Y") {
+} else {
+   print "Aborting.\n";
+   exit 1;
+}
+
+rm_dir("lib/daemons/data");
+rm_dir("lib/data");
+
+if (-d "lib/domains/gurba") {
+	rm_dir("lib/domains/gurba/data");
+}
+if (-d "lib/domains/required") {
+   rm_dir("lib/domains/required/data");
+}
+
+rm_dir("lib/kernel/daemons/data");
+rm_dir("lib/sys/daemons/data");
+rm_dir("lib/tmp");
+rm_dir("lib/logs");
+rm_dir("lib/wiz");
+
+print "You should run scripts/create_data_dirs to recreate your " .
+   "data directories.\n";

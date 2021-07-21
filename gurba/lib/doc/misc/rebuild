@@ -1,0 +1,161 @@
+Rebuilding objects after you changed an inheritable
+
+  Method 1: 
+
+    > update <path to inheritable>
+
+    then if it compiled properly
+
+    > rebuild
+
+    This method is mostly suited for changes to domain
+    inheritables and things from /std.
+
+  Method 2:
+
+    > warmboot
+
+    This will rebuild everything as follows:
+
+    first /kernel/sys/driver, /kernel/lib/auto and 
+    /kernel/daemons/compiler_d are recompiled.
+
+    If this fails, the compile is rolled back and
+    nothing is updated.
+
+    second, all other objects are recompiled. Failures
+    during this phase cannot be rolled back. Recompilation
+    will stop when an object fails to compile.
+
+
+  What happens under the hood
+
+    When you use the update command, it checks with compiler_d
+    to see if you are recompiling an inheritable, and if so, it
+    requests a list of all objects that directly or indirectly
+    inherit this inheritable.
+
+    Those objects are added to a queue which is then checked by
+    the rebuild command.
+
+    The warmboot command does all of this in one go, and also
+    ensures that important objects in /kernel get recompiled in
+    the proper order.
+
+Dealing with changes
+
+  Just recompiling an object isn't always enough.
+
+  If your object sets some variables in the create()
+  function, and you then change create() to set those
+  variables to something else, that change will not
+  show after a recompile.
+
+  The reason for this is that a recompile does NOT call
+  create(), and it really shouldn't do so. create() is only
+  called when the object is newly created.
+
+  For normal game objects, there is a setup() function that
+  you have to define. This function is called both when the
+  object is created and when it has been recompiled.
+
+  Note that setup() should not be used in inheritables, only
+  in 'real' objects.
+
+  Also note that setup() will be called in both the master and
+  clones of rooms (since they tend to get used in both ways) but
+  only in clones for other game objects (since they only tend to
+  be used as clones, and trying to call setup on a master without
+  environment is likely to fail for those)
+
+  Things like setting ids, descriptions and such things should
+  therefore be done in setup(), and not in create() at least,
+  if you want changes to such things to show after a recompile.
+
+  After an object has been recompiled, the function
+  upgraded() will be called in it and all of its clones.
+
+  This upgraded() function should take care of any
+  changes in the internal data structure of an object.
+
+  /std/object.c has an upgraded() function that will ensure
+  setup() is called in all clones of an object, but NOT in
+  the 'blueprint' of an object. If you need setup to be called
+  in the blueprint, you MUST add your own upgraded() function
+  that looks as follows:
+
+  -----------------------------------
+  void upgraded(void) {
+    if (clone_num() == 0) setup();
+    ::upgraded();
+  }
+  -----------------------------------
+
+  Note that calling ::upgraded() is mandatory, it ensures that
+  whatever upgrade mechanisms are in place in inherited code is
+  also executed. Forgetting this may result in strange problems
+  that may occur much later when an inheritable changed.
+
+  room.c has its own upgraded() function that ensures setup() is
+  also called in the blueprint/master of a room. The example above
+  comes from room.c (at svn revision 390)
+
+More complex changes, and changes to the data in an inheritable
+  
+  You may want to convert the internal data format or global 
+  variables in your object, or make changes to data in an inheritable.
+  In that case you must provide for your own upgraded() function. 
+  Be sure to do ::upgraded() there in all objects that inherit /std/object.c
+  either directly, or indirectly (through container.c or room.c for example)
+
+A few notes for properly writing an upgraded() function:
+
+  * It is quite possible that upgraded() gets called without
+    you expecting it. This can happen when a system library
+    is changed, and all objects depending on it are upgraded.
+
+    Your upgraded() function should make sure this is not a
+    problem for example by checking if it has to do anything.
+
+    You could easily do this by keeping a version number in a
+    variable and checking on it. A small example of this:
+
+    ---------------------
+
+    #define VERSION 3;
+
+    int version;
+
+    void upgraded(void) {
+      if (version != VERSION) { /* Upgrade needed */
+        .....
+        version = VERSION;
+      }
+      ::upgraded();
+    }
+
+    ----------------------
+
+    When you want upgraded() to do some work next time it gets
+    called, you have to change the number in the #define line.
+    upgraded() will be called, do its work, and ensure it wont
+    run again until the define is changed again.
+
+  * It may be a very good idea to write your setup function
+    such that it can be called repeatedly without causing problems.
+
+  * In order to handle changing the name or type of a variable,
+    you have to first add a new variable, change upgraded() to
+    move the information to the new variable, recompile, then
+    remove the old variable and recompile once more.
+
+Handling include files
+
+  The update/rebuild sequence doesn't work for include files yet.
+  You will have to use the warmboot command.
+
+Testing your changes
+
+  Often, it is useful to try to recompile the code you changed
+  including a few objects that use that code. This is not
+  mandatory.

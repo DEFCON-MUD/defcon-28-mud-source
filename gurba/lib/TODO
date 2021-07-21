@@ -1,0 +1,108 @@
+XXX THIS WHOLE FILE XXX
+
+Just a simple todo list.  If you grep for XXX in the code you'll
+find todo's for individual files.  This here is for higher level concepts 
+and ideas that don't translate well to a given file currently.
+
+look into using ssh to connect by default.  telnet is dead... ;)
+
+look into a "git" interface for security and editing files.
+Need to research writeable files for wizards/admins and see what
+makes sense.
+
+m_lockable, keys
+m_switchable, Levers
+auto dest/update of all instances of an object
+
+Old stuff from ../doc/TODO:
+- Add linked list support to auto object
+- Mask destruct_object() to deregister objects and clones
+- Ensure a create function in the auto object gets called
+  to register new objects/clones
+- Rewrite fake objects module to use LWOs
+- Add TLS support to the driver object
+- Rewrite object_d to track inheritance
+- Change update to deal with inheritables
+- Change update to allow updating all depending objects
+
+Fix it so deep inventory works with autoload.
+
+Fix bunny so that it doesn't attack you second time you pick flower...
+In combat the bunny does't always attack...
+
+Fix rooms not loading objects so it loads the singularity(sing.c)
+
+Fix up Events like body_enter body_leave  good way to do 
+gurba monsters that talk when things happen I think...
+Harry...
+
+Need to convert Monster item_command stuff to object_commands
+
+chan, and mudlist shouldn't return cached stuff if not connected?
+
+locate username   (for finding people on other muds, i3locate in dead souls)
+mail "user@mud" support...
+
+write a showtree command that shows an objects inherit list?
+
+locate command gives:
+Intermud error 'unk-type' received from Ulario
+Unhandled packet type: locate-req
+
+rebuild - doesn't give an error...
+
+rwho sirdude gives a very cryptic error message.
+
+after possess rat
+	$>  cmds
+	$Runtime error: Value is not an int
+	$>  ls
+	$Runtime error: Bad argument 2 to normalize_path (needs string)
+	$>  cd
+	$Runtime error: Bad argument 2 to normalize_path (needs string)
+
+Move more of std/obj/player.c:receive_message() to m_cmds.c:do_game_command()
+
+Modify combat so you can have multiple damage messages for a given weapon???
+	like the swiss army knife in eotl...
+
+Fix it so list works when objects don't compile.
+
+When you first login on mud creation, you must logout 
+	before getting "admin rights"
+
+Look into MPX support, MCCP or KaVir's MUD Protocol Handler
+	http://www.mudbytes.net/file-2811
+
+do_game_command should look at full command path, right now it doesn't...
+	This is a perms issue at this point.
+
+Fix it so you can do the following:
+	possess rat
+	call -h
+
+add a rest/stand command where you gain hp otherwise you don't...
+Add fullness/intoxication to score output...
+
+ a built in history command, for the last 20 commands
+#! preforms the last executed command
+#$ preforms the last word of the last executed command.
+#(num) preforms that command from the history
+#(string) preforms the last history command starting with (string)
+
+a bot spams random hints to the info channel every so often.
+
+defend command allows you to proctect another player.
+Things attacking it will attack you instead.
+
+Fix check and checkmud functions so that they continue on errors.
+Also fix it so we avoid the too many objects error...
+
+Convert DEBUG define's to LOG_D->log's & levels...
+
+update doc checker to look at -h for commands  (see also and other things)
+
+Fix channels so that there is no conflict  between wiz command and wiz channel.
+also make sure you can't create an empty channel.
+	Maybe make it chan cmd wiz (channel)
+	(all commands need to be prefixed with 'cmd')

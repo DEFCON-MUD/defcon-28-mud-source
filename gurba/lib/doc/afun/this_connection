@@ -1,0 +1,26 @@
+NAME
+	this_connection - get the current 'connection'
+
+SYNOPSIS
+	object this_connection()
+
+DESCRIPTION
+	Get the object representing the current network connection.
+	This can be the same as the current session object but usually
+	it isn't.  Currently this just calls the kfun this_user,
+	It is mainly for compatibility.
+
+RETURN VALUE
+	The object representing the current connection is returned.
+
+EXAMPLES
+	object connection, player;
+
+	connection = this_connection();
+	player = connection->query_player();
+
+SEE ALSO
+	afun/call_trace, safun/players, afun/set_this_player, safun/this_body,
+	safun/this_environment, afun/this_player, safun/this_program,
+	safun/this_race, afun/this_user, kfun/call_trace, kfun/previous_object,
+	kfun/previous_program

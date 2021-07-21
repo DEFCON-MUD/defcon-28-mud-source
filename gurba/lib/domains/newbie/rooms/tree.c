@@ -1,0 +1,102 @@
+#include "../domain.h"
+
+inherit "/std/room";
+
+#define FILE DIR + "/rooms/entrance.c"
+
+void setup(void) {
+   add_area("newbie");
+
+   set_short("North end of the field");
+   set_long("You are in a large open field, next to an old dead tree. " +
+      " To the South you see a road leading to a clearing.  There is an odd " +
+      "hole in a hill to the east. A vast forest is to the north." +
+      "The newbie advancement room is to the west.");
+
+   set_exits(([
+      "south" : STARTING_ROOM,
+      "east" : "#enter_hole",
+      "west" : "/domains/required/rooms/advance.c",
+      "north" : "/domains/woodland/rooms/5_16.c"
+   ]));
+
+   set_objects(
+      DIR + "/obj/sign", 
+      DIR + "/obj/tree"
+   );
+
+   add_item("hole", "A funny hole in the ground.  You might be able to " +
+      "squeeze into it.");
+
+   add_action("break_branch", "break");
+   add_action("squeeze_hole", "squeeze");
+}
+
+int break_branch(string str) {
+   object obj, branch;
+
+   branch = this_player()->present("stick");
+   if (branch) {
+      write("There are no branches left on the tree that you can reach.\n");
+      return 1;
+   }
+
+   if (str == "branch") {
+      if (query_newbie(this_player()) == 0) {
+         write("There are no branches left on the tree that you can reach.\n");
+         return 1;
+      } else {
+         this_player()->query_environment()->tell_room(this_player(),
+            this_player()->query_Name() +
+            " breaks a branch off of the tree.\n");
+         write("You break a branch off of the tree.\n");
+         obj = clone_object(DIR + "/obj/stick.c");
+         obj->move(this_player());
+         obj->setup();
+      }
+
+      return 1;
+   } else {
+      return 0;
+   }
+}
+
+void enter_hole(void) {
+   object obj;
+
+   if (query_newbie(this_player()) == 0) {
+      write("You don't seem to fit through the hole anymore.");
+      this_object()->tell_room(this_player(), this_player()->query_Name() + 
+         " tries to squeeze through the hole but can not seem to " +
+         "fit through it.");
+      return;
+   } else {
+      obj = find_object(FILE);
+      if (!obj) {
+         obj = compile_object(FILE);
+         if (!obj) {
+            write("Error in loading destination.\n");
+            return;
+         }
+         obj->setup();
+         obj->setup_mudlib();
+      }
+      if (this_player()->move(obj)) {
+         write("You wriggle through the hole.");
+         this_object()->tell_room(this_player(),
+            this_player()->query_Name() + " squeezes through the hole.\n");
+         this_player()->do_look(this_environment());
+      }
+   }
+   return;
+}
+
+int squeeze_hole(string str) {
+   object obj;
+
+   if ((str == "hole") || (str == "")) {
+      enter_hole();
+      return 1;
+   }
+   return 0;
+}

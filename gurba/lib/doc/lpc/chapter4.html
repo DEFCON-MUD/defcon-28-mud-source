@@ -1,0 +1,244 @@
+<HEAD>
+<TITLE>Chapter 4</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<H3 ALIGN=CENTER>LPC Basics</H3>
+<H4 ALIGN=CENTER>Written by Descartes of Borg</H4>
+<H4 ALIGN=CENTER>23 april 1993</H4>
+<P>
+<H5 ALIGN=CENTER>CHAPTER 4: Functions</H5>
+
+<B>4.1 Review</B><BR><BR>
+By this point, you should be aware that LPC objects consist of functions
+which manipulate variables.  The functions manipulate variables when they
+are executed, and they get executed through *calls* to those functions.
+The order in which the functions are placed in a file does not matter.
+Inside a function, the variables get manipulated.  They are stored in
+computer memory and used by the computer as 0's and 1's which
+get translated to and from useable output and input through a device
+called data typing.  String data types tell the driver that the
+data should appear to you and come from you in the form of alphanumeric
+characters.  Variables of type int are represented to you as whole
+number values.  Type status is represented to you as either 1 or 0.
+And finally type void has no value to you or the machine, and is not
+really used with variable data types.
+<BR><BR>
+<B>4.2 What is a function?</B><BR><BR>
+Like math functions, LPC functions take input and return output.
+Languages like Pascal distinguish between the concept of procedure and
+the concept of function.  LPC does not, however, it is useful to
+understand this distinction.  What Pascal calls a proceedure, LPC
+calls a function of type void.  In other words, a proceedure, or function
+of type void returns no output.  What Pascal calls a function differs
+in that it does return output.  In LPC, the most trivial, correct
+function is:
+<PRE>
+void do_nothing() { }
+</PRE>
+This function accepts no input, performs no instructions, and returns no
+value.
+<P>
+There are three parts to every properly written LPC function:<BR>
+<MENU>
+<B>1)</B> The declaration<BR>
+<B>2)</B> The definition<BR>
+<B>3)</B> The call
+</MENU>
+<P>
+Like with variables, functions must be declared.  This will allow the
+driver to know 1) what type of data the function is returning as output,
+and 2) how many input(s) and of what type those input(s) are.  The
+more common word for input is parameters.<BR>
+A function declaration therefore consists of:<BR><BR>
+<CODE>type name(parameter1, parameter2, ..., parameterN);</CODE><BR><BR>
+The declaration of a function called <CODE>drink_water()</CODE> which accepts a string as
+input and an int as output would thus look like this:
+<PRE>
+int drink_water(string str);
+</PRE>
+where str is the name of the input as it will be used inside the function.
+<P>
+The function definition is the code which describes what the function actually
+does with the input sent to it.  <BR>
+The call is any place in other functions which invokes the execution of the
+function in question.  For two functions <CODE>write_vals()</CODE> and <CODE>add()</CODE>, you thus
+might have the following bit of code:
+<PRE>
+/* First, function declarations.  They usually appear at the beginning
+   of object code. 
+*/
+void write_vals();
+int add(int x, int y);
+
+/* Next, the definition of the function write_vals().  We assume that
+   this function is going to be called from outside the object
+*/
+void write_vals() {
+    int x;
+
+    /*N Now we assign x the value of the output of add() through a call */
+    x = add(2, 2);
+    write(x+"\n");
+}
+
+/* Finally, the definition of add() */
+int add(int x, int y) {
+    return (x + y);
+}
+</PRE>
+Remember, it does not matter which function definition appears first in the
+code.  This is because functions are not executed consecutively.  Instead,
+functions are executed as called.  The only requirement is that the
+declaration of a function appear before its definition and before the
+definition of any function which makes a call to it.
+<BR><BR>
+<B>4.3 Efuns</B><BR><BR>
+Perhaps you have heard people refer to efuns.  They are externally defined
+functions.  Namely, they are defined by the mud driver.  If you have
+played around at all with coding in LPC, you have probably found some
+expressions you were told to use like <CODE>this_player()</CODE>, <CODE>write()</CODE>, <CODE>say()</CODE>,
+<CODE>this_object()</CODE>, etc. look a lot like functions.  That is because they are
+efuns.  The value of efuns is that they are much faster than LPC functions,
+since they already exist in the binary form the computer understands.
+<P>
+In the function <CODE>write_vals()</CODE> above, two functions calls were made.  The first was to
+the functions <CODE>add()</CODE>, which you declared and defined.  The second call, however,
+was to a function called <CODE>write()</CODE>, and efun.  The driver has already declared
+and defined this function for you.  You needs only to make calls to it.
+<P>
+Efuns are created to hanldle common, every day function calls, to handle
+input/output to the internet sockets, and other matters difficult to be
+dealt with in LPC.  They are written in C in the game driver and compiled
+along with the driver before the mud comes up, making them much faster
+in execution.  But for your purposes, efun calls are just like calls
+made to your functions.  Still, it is important to know two things of any
+efun: 1) what return type does it have, and 2) what parameters of what
+types does it take.
+<P>
+Information on efuns such as input parameters and return types is often
+found in a directory called <CODE>/doc/efun</CODE> on your mud.  I cannot
+detail efuns here, because efuns vary from driver to driver.  However,
+you can often access this information using the commands "<CODE><A HREF="/mud/doc/help_w/man.html">man</A></CODE>" or "<CODE><A HREF="/mud/doc/help_p/hilfe.html">help</A></CODE>"
+depending on your mudlib.  For instance, the command "man write" would
+give you information on the write efun.  But if all else fails,
+"<CODE>more /doc/efun/write</CODE>" should work.
+<P>
+By looking it up, you will find write is declared as follows:
+<PRE>
+void write(string);
+</PRE>
+This tells you an appropriate call to write expects no return value and
+passes a single parameter of type string.
+<BR><BR>
+<B>4.4 Defining your own functions</B><BR><BR>
+Although ordering your functions within the file does not matter, ordering
+the code which defines a function is most important.  Once a function
+has been called, function code is executed in the order it appears
+in the function definition.  In <CODE>write_vals()</CODE> above, the instruction:
+<PRE>
+x = add(2, 2);
+</PRE>
+Must come before the <CODE>write()</CODE> efun call if you want to see the appropriate
+value of x used in <CODE>write()</CODE>.  
+<P>
+With respect to values returned by function, this is done through the "return"
+instruction followed by a value of the same data type as the function.  In
+<CODE>add()</CODE> above, the instruction is "<CODE>return (x+y);</CODE>", where the value of (x+y)
+is the value returned to <CODE>write_vals()</CODE> and assigned to x.  On a more
+general level, "return" halts the execution of a function and returns
+code execution to the function which called that function.  In addition,
+it returns to the calling function the value of any expression that follows.
+To stop the execution of a function of type void out of order, use
+"return"; without any value following.  Once again, remember, the data
+type of the value of any expression returned using "return" MUST be the
+same as the data type of the function itself.
+<BR><BR>
+<B>4.5 Chapter Summary</B><BR><BR>
+The files which define LPC objects are made of of functions.  Functions, in
+turn, are made up of three parts:
+<MENU>   
+    <B>1)</B> The declaration<BR>
+    <B>2)</B> The definition<BR>
+    <B>3)</B> The call
+</MENU>
+Function declarations generally appear at the top of the file before any
+defintions, although the requirement is that the declaration must appear
+before the function definition and before the definition of any function
+which calls it.<BR>
+Function definitions may appear in the file in any order so long as they
+come after their declaration.  In addition, you may not define one function
+inside another function.<BR>
+Function calls appear inside the definition of other functions where you
+want the code to begin execution of your function.  They may also appear
+within the definition of the function itself, but this is not recommended
+for new coders, as it can easily lead to infinite loops.
+<P>
+The function definition consists of the following in this order:
+<MENU>
+    <B>1)</B> function return type<BR>
+    <B>2)</B> function name<BR>
+    <B>3)</B> opening ( followed by a parameter list and a closing )<BR>
+    <B>4)</B> an opening { instructing the driver that execution begins here
+    <B>5)</B> declarations of any variables to be used only in that function<BR>
+    <B>6)</B> instructions, expressions, and calls to other functions as needed<BR>
+    <B>7)</B> a closing } stating that the function code ends here and, if no
+       "return" instruction has been given at this point (type void functions
+       only), execution returns to the calling function as if a r"return"
+       instruction was given
+</MENU>
+The trivial function would thus be:
+<PRE>
+void do_nothing() {}
+</PRE>
+since this function does not accept any input, perform any instructions, or
+return any output.
+<P>
+Any function which is not of type void MUST return a value of a data type
+matching the function's data type.
+<P>
+Each driver has a set of functions already defined for you called efuns
+These you need neither need to declare nor define since it has already
+been done for you.  Furthermore, execution of these functions is faster
+than the execution of your functions since efuns are in the driver.
+In addition, each mudlib has special functions like efuns in that they
+are already defined and declared for you, but different in that they
+are defined in the mudlib and in LPC.  They are called simul_efuns, or
+simulated efuns.  You can find out all about each of these as they are
+listed in the <CODE>/doc/efun</CODE> directory on most muds.  In addition many
+muds have a command called "<CODE><A HREF="/mud/doc/help_w/man.html">man</A></CODE>" or a "<CODE><A HREF="/mud/doc/help_p/hilfe.html">help</A></CODE>" command which allows you
+simply to call up the info files on them.
+<P>
+Note on style:
+Some drivers may not require you to declare your functions, and some
+may not require you to specify the return type of the function in its
+definition.  Regardless of this fact, you should never omit this information
+for the following reasons:
+<MENU>
+    <B>1)</B> It is easier for other people (and you at later dates) to read your
+       code and understand what is meant.  This is particularly useful
+       for debugging, where a large portion of errors (outside of misplaced
+       parentheses and brackets) involve problems with data types (Ever
+       gotten "Bad arg 1 to foo() line 32"?).<BR>
+    <B>2)</B> It is simply considered good coding form.
+</MENU>
+<BR>
+<P>
+<CENTER>
+| <A HREF="/mud/doc/lpc/contents.html">Inhalt</A> |
+  <A HREF="/mud/doc/lpc/introduction.html">Introduction</A> |
+  <A HREF="/mud/doc/lpc/chapter1.html">Chapter 1</A> |
+  <A HREF="/mud/doc/lpc/chapter2.html">Chapter 2</A> |
+  <A HREF="/mud/doc/lpc/chapter3.html">Chapter 3</A> |
+  <A HREF="/mud/doc/lpc/chapter5.html">Chapter 5</A> |
+  <A HREF="/mud/doc/lpc/chapter6.html">Chapter 6</A> |
+  <A HREF="/mud/doc/lpc/chapter7.html">Chapter 7</A> |
+  <A HREF="/mud/doc/lpc/chapter8.html">Chapter 8</A> |
+<BR>
+| <A HREF="/index.html">Hauptseite des Wunderlandes</A> |
+</CENTER>
+<BR>
+<HR>
+<BR>
+<IMG SRC="/icons/mail.gif"> <A HREF="mailto:mud@wl.mud.de"><I>mud@wl.mud.de</I></A>
+</BODY>
+</HTML>

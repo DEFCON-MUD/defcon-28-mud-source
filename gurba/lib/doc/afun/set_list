@@ -1,0 +1,21 @@
+NAME
+	set_list - set the value of a specified list
+
+SYNOPSIS
+	nomask void set_list(string list, object * ptr)
+
+DESCRIPTION
+	Assign the object list ptr to the specified list.
+
+RETURN VALUE
+	NA (void)
+
+EXAMPLES
+	object master = this_object();
+	object next;
+
+	next = prt[LIST_NEXT];
+	set_list( "clones", ({ master, next }) );
+
+SEE ALSO
+	afun/get_list

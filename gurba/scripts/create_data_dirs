@@ -1,0 +1,153 @@
+#!/usr/bin/perl -w
+my ($word);
+
+sub makedir {
+   my ($infile) = @_;
+
+   if (!-d $infile) {
+      mkdir($infile);
+   }
+   # Use this to test things and make sure .gitignores are used properly
+   # system("touch $infile/blah");
+}
+
+if (!(-f "scripts/create_data_dirs")) {
+   print "Error I'm not in the right location.  You need to run this script\n";
+   print "in the base directory gurablib.\n";
+   print "\tcd to your gurbalib then type: scripts/create_data_dirs\n";
+   exit 1;
+}
+
+makedir("bin");
+makedir("src");
+makedir("backups");
+makedir("tmp");
+# Everything after here is in the actual mudlib
+makedir("lib/daemons/data");
+makedir("lib/data");
+makedir("lib/data/messages");
+makedir("lib/data/banished");
+
+system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+   "lib/data/banished/kernel");
+system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+   "lib/data/banished/system");
+system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+   "lib/data/banished/network");
+system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+   "lib/data/banished/wizard");
+system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+   "lib/data/banished/wiz");
+system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+   "lib/data/banished/game");
+
+makedir("lib/data/banned");
+makedir("lib/data/banned/a");
+makedir("lib/data/banned/b");
+makedir("lib/data/banned/c");
+makedir("lib/data/players");
+makedir("lib/data/mail");
+
+if (-d "lib/domains/2.4.5") {
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/2.4.5");
+}
+
+if (-d "lib/domains/boothill") {
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/boothill");
+}
+
+if (-d "lib/domains/gurba") {
+   makedir("lib/domains/gurba/data");
+   makedir("lib/domains/gurba/data/boards");
+   makedir("lib/domains/gurba/data/lockers");
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/gurba");
+}
+
+if (-d "lib/domains/newbie") {
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/newbie");
+}
+
+if (-d "lib/domains/required") {
+   makedir("lib/domains/required/data");
+   makedir("lib/domains/required/data/boards");
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/required");
+}
+
+if (-d "lib/domains/nokicliffs") {
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/nokicliffs");
+}
+
+if (-d "lib/domains/test") {
+   system("echo Mon Oct 21 23:46:40 2013	by:  sirdude > " .
+      "lib/data/banished/test");
+}
+
+makedir("lib/kernel/daemons/data");
+makedir("lib/sys/daemons/data");
+makedir("lib/sys/daemons/data/users");
+makedir("lib/tmp");
+makedir("lib/logs");
+makedir("lib/logs/errors");
+makedir("lib/logs/nobody");
+makedir("lib/wiz");
+
+if (!-f "lib/pub/README") {
+	makedir("lib/pub");
+	open($fh,">","lib/pub/README") or 
+		die "Unable to open: lib/pub/README\n";
+	print $fh "This directory is accesable via ftp, so Please be nice.\n";
+	close $fh;
+}
+
+if (!(-f "lib/daemons/data/emote_d.o")) {
+   print "lib/daemons/data/emote_d.o does not exist, do you want to use" .
+      "contrib/emote_d.o?\nIt has quite a few emotes.\n";
+   print "If you say no here you will get the default, ";
+   print "which only contains one emote.\n(Y/N)? ";
+   chomp($word = <STDIN>);
+
+   if ($word eq "y" || $word eq "Y") {
+	system("cp contrib/emote_d.o lib/daemons/data/emote_d.o");
+   }
+}
+
+if (!(-f "lib/data/messages/login")) {
+   print "lib/data/messages/login does not exist, do you want to use " .
+      "contrib/login?\nIf you say no here " .
+      "you will need to create that file later.\n(Y/N)? ";
+   chomp($word = <STDIN>);
+
+   if ($word eq "y" || $word eq "Y") {
+	system("cp contrib/login lib/data/messages/login");
+   }
+}
+
+if (!(-f "lib/data/messages/motd")) {
+   print "lib/data/messages/motd does not exist, do you want to use " .
+      "contrib/motd?\nIf you say no here " .
+      "you will need to create that file later.\n(Y/N)? ";
+   chomp($word = <STDIN>);
+
+   if ($word eq "y" || $word eq "Y") {
+	system("cp contrib/motd lib/data/messages/motd");
+   }
+}
+
+if (!(-d "lib/data/fortunes")) {
+   print "lib/data/fortunes does not exist, do you want to use " .
+      "contrib/fortunes?\nIf you say no here you will need to create those " .
+      "files later.\n(Y/N)? ";
+
+   chomp($word = <STDIN>);
+
+   if ($word eq "y" || $word eq "Y") {
+        system("mkdir lib/data/fortunes");
+	system("cp contrib/fortunes/samples lib/data/fortunes/samples");
+   }
+}

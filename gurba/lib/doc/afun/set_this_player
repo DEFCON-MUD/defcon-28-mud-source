@@ -1,0 +1,26 @@
+NAME
+	set_this_player - sets value for this_player()
+
+SYNOPSIS
+	void set_this_player(object ob)
+
+DESCRIPTION
+	Sets the return value of this_player() to ob.
+
+RETURN VALUE
+	NA (void)
+
+EXAMPLES
+	object player;
+
+	player = this_player()->query_possessing();
+	if (player) {
+	   set_this_player(player);
+	   write("You are now inside player: " + player->query_name() + "\n");
+	}
+
+SEE ALSO
+	afun/call_trace, safun/players, safun/this_body, afun/this_connection,
+	safun/this_environment, afun/this_player, safun/this_program,
+	safun/this_race, afun/this_user, kfun/call_trace, kfun/previous_object,
+	kfun/previous_program

@@ -1,0 +1,24 @@
+NAME
+	this_player - get the current 'player'
+
+SYNOPSIS
+	object this_player()
+
+DESCRIPTION
+	Get the object representing the current 'player', i.e.  the living
+	object which has 'given the last command'.
+
+RETURN VALUE
+	The object representing the current player is returned.
+
+EXAMPLES
+	object player;
+
+	player = this_player();
+	write("Name: " + player->query_Name() + "\n");
+
+SEE ALSO
+	afun/call_trace, safun/players, afun/set_this_player, safun/this_body,
+	afun/this_connection, safun/this_environment, safun/this_program,
+	safun/this_race, afun/this_user, kfun/call_trace, kfun/previous_object,
+	kfun/previous_program

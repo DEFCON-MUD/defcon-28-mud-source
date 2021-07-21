@@ -1,0 +1,41 @@
+/domains/core/rooms/city/x80y-10z0.c - greys office - quest 7
+/domains/core/rooms/city/x80y-40z0.c - key quest tracker
+/domains/core/rooms/east/x260y-40z0.c - key quest tracker
+/domains/core/rooms/city/x-10y-40z0.c - sketchy clinic
+/domains/core/rooms/prison/x170y210z0.c - wrong exit, core uses diff co-ords, gen sends it to x170y210z-10.c, it needs to go to x210y420z-10.c - I think I coded custom exits, if not I will add to the generator
+/domains/core/rooms/prison/x180y210z0.c - Red button to give lockpicks - I really should change this
+/domains/core/rooms/prisonbasement/x190y460z-10.c - key quest tracker
+/domains/core/rooms/prisonbasement/x210y420z-10.c - wrong exit, core uses diff co-orders, gen sends you to x210y420z0.c, needs custom exit to x170y210z0.c, could make this a transit tunnel but thats messy, the correct thing to do is regen the prison but yuck :(
+/domains/core/rooms/city/x-20y10z0.c - 90% of quest 7 is coded here, its the touch padd joke, originally used as a core store room. also renderman beer code, really should change the logic here, quest tracker needs rewrite anyways
+/domains/core/rooms/city/x-20y50z0.c - key quest tracker
+/domains/core/rooms/city/x0y0z10.c - cheat console - should move to an object or debug tool, maybe full in game menu, why not, actually thats a great idea
+/domains/core/rooms/city/x40y-90z0.c - contains an up to get back to start portal, make custom exit code for the realm change or consider full sci-fi, maybe a shuttle or something.
+/domains/core/rooms/city/x60y-60z0.c - disconnected button, no idea why, find a use for it
+/domains/core/rooms/city/x60y-60z0.c - quest 7 tracker, queen rat
+/domains/core/rooms/city/x80y-40z0.c - key quest tracker
+/domains/core/rooms/east/x260y-40z0.c - key quest tracker
+/domains/core/rooms/eastmine/x630y0z0.c - crypto mining, look at moving to central module
+/domains/core/rooms/nympho/x410y-680z0.c - wallet in search code as a part of quest 7 - consider moving wallet to access chip or some other objectless search, maybe a flag - paired with /domains/core/monsters/norman.c
+/domains/core/rooms/nympho/x450y-640z0.c - key quest tracker
+/domains/core/rooms/southmine/x0y-630z0.c - south mine, consider moving to a module
+/domains/core/rooms/sewer/x-10y30z-20.c - steam key, change to a flag to reduce number of objects
+/domains/core/rooms/sewer/x-50y30z-10.c - key quest tracker
+/domains/core/rooms/sewer/x-80y50z-20.c - quest 7 tracker, sandworms
+/domains/core/rooms/sewer/x0y30z-20.c - push wall - change hidden exits, broken in gen'd version, in hidden exits change "push wall" to just wall
+/domains/core/rooms/sewer/x10y30z-20.c - push wall - change hidden exits, broken in gen sh entry, no changes to auto gen, change "push wall" to "wall" in hidden exits
+/domains/core/rooms/sewer/x40y-50z-10.c - sewer quest - secard, consider changing to an access point to update access card to reduce objects
+/domains/core/rooms/sewer/x40y-90z-20.c - pottles force respawn, look at this section and consider refresh + a refresh timer to avoid abuse
+/domains/core/rooms/sewer/x50y-40z-10.c - arnie - consider pksafe code in autogen and then mark as pk safe, remove extra code
+/domains/core/rooms/sewer/x50y60z-20.c - sewer quest - sewer boss - consider change to complex, or instanced room (you have to code instances first), also consider just refresh environment on enter
+/domains/core/rooms/sewer/x90y0z-10.c - missing exits in autogen - west and east
+/domains/core/monsters/arnie.c - arnie, speaking triggers, consider coding into autogen, also sewer quest specific code, consider making pk safe
+/domains/core/monsters/carson.c - quest 7 - cyberslime code, talking triggers
+/domains/core/monsters/cyberslime.c - quest 7 tracker - rats quest?
+/domains/core/monsters/james.c - payroll master, pays player
+/domains/core/monsters/johnson.c - quest 7 tracker - access code supra
+/domains/core/monsters/kendall.c - quest 7 tracker - rats
+/domains/core/monsters/lrak.c - lrak, newbie helper, say triggers and stuff
+/domains/core/monsters/magnus.c - newbie helper, also gives details on the ctf
+/domains/core/monsters/norman.c - norman lost his wallet, paired with /domains/core/rooms/nympho/x410y-680z0.c - look at changing to access tracker
+/domains/core/monsters/pottles.c - now runs around
+/domains/core/monsters/tom.c - quest 7 tom

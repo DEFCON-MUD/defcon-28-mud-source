@@ -1,0 +1,22 @@
+When upgrading your mudlib always make a backup of your stuff:
+
+	1. shutdown the mud
+	2. cd gurablib then run: ./scripts/backup_lib
+	3. run "git log" to see what version of files your currently using
+	4. update your repository with: git pull
+	5. review your file lib/kernel/include/local_config.h against
+		lib/kernel/include/local_config.h.default
+	6. look at the git log to see if there are any incompatabilities
+		listed in the notes.
+	7. Restart the mud.
+	8. If you have problems check the logs to see whats going wrong.
+	9. If you can't figure things out drop me an email:
+		mein@cs.umn.edu
+
+If you need to revert things:
+	1. stop your mud if its semi running.
+	2. verify you have a valid backup in the backups directory
+	3. mv lib lib.foo
+	4. tar xvfz backups/(timestamp)_mudlib.tgz 
+		where (timestamp)_mudlib.tgz is the backup you want to restore.
+	5. start your mud.
